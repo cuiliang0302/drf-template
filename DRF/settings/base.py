@@ -44,7 +44,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware', # 允许跨域请求
+    'corsheaders.middleware.CorsMiddleware',  # 允许跨域请求
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -122,9 +122,9 @@ USE_TZ = True
 
 # 静态文件存放位置
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-]
+# 指定样式收集目录
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 
 # 设置文件上传路径，图片上传、文件上传都会存放在此目录里
 MEDIA_URL = '/media/'
@@ -176,9 +176,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 SIMPLEUI_HOME_INFO = False
 SIMPLEUI_ANALYSIS = False
 
-
 # 登录认证后端
 AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.AllowAllUsersModelBackend',  # 创建用户不自动关联数据库的is_active
                            'django.contrib.auth.backends.ModelBackend',  # 指定Django的modelbackend类
                            )
-

@@ -16,14 +16,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from public import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    # admin管理页
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    # API接口调试认证
-    path('', views.apiDoc, name='apiDoc'),
-    # API文档
-    path('v1/public/', include('public.urls', namespace='public')),
-    # 公共API
-]
+                  path('admin/', admin.site.urls),
+                  # admin管理页
+                  path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+                  # API接口调试认证
+                  path('', views.apiDoc, name='apiDoc'),
+                  # API文档
+                  path('v1/public/', include('public.urls', namespace='public')),
+                  # 公共API
+              ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

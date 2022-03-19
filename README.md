@@ -40,3 +40,8 @@ OK
 docker build -t drf:v1 . 
 docker run -p 8000:8000 --name drf --restart always --link mysql --link redis -d drf:v1
 ```
+
+### 更新admin静态资源文件
+```bash
+python manage.py collectstatic --settings=DRF.settings.product
+```
