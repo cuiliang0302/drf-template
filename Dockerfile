@@ -1,5 +1,5 @@
 # 项目dockerfile镜像文件
-FROM rockylinux:latest
+FROM rockylinux:8
 RUN dnf install -y python38 sudo mysql-devel gcc python38-devel langpacks-zh_CN
 RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo 'Asia/Shanghai' >/etc/timezone
 ADD . /opt/DRF/

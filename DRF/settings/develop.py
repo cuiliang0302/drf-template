@@ -1,4 +1,7 @@
 from DRF.settings.base import *
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static")
+]
 DEBUG = True
 DATABASES = {
     'default': {

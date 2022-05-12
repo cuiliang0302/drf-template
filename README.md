@@ -14,15 +14,10 @@ DRF初始化模板，实现开发生产环境区分，开发模式使用sqlite�
 [root@aliyun mysql]# docker run -p 3306:3306 --name mysql -v $PWD/conf:/etc/mysql/conf.d -v $PWD/logs:/logs -v $PWD/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=CuiLiang@0302 -d --restart=always mysql
 
 # 创建数据库
-mysql> CREATE DATABASE myblog_new DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+mysql> CREATE DATABASE test DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 Query OK, 1 row affected, 2 warnings (0.01 sec)
 
 mysql> show databases;
-# 导入数据
-mysql> use myblog;
-Database changed
-mysql> source /root/myblog.sql;
-mysql> show tables;
 ```
 
 ### redis部署
@@ -38,10 +33,46 @@ OK
 ### 后端API部署
 ```bash
 docker build -t drf:v1 . 
-docker run -p 8000:8000 --name drf --restart always --link mysql --link redis -d drf:v1
+docker run -p 8888:8888 --name drf --restart always --link mysql --link redis -d drf:v1
 ```
 
 ### 更新admin静态资源文件
 ```bash
 python manage.py collectstatic --settings=DRF.settings.product
+```
+
+### nginx配置
+```bash
+user root;
+worker_processes auto;
+error_log /var/log/nginx/error.log;
+pid /run/nginx.pid;
+# Load dynamic modules. See /usr/share/doc/nginx/README.dynamic.
+include /usr/share/nginx/modules/*.conf;
+events {
+    worker_connections 1024;
+}
+http {
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+    access_log  /var/log/nginx/access.log  main;
+    sendfile            on;
+    tcp_nopush          on;
+    tcp_nodelay         on;
+    keepalive_timeout   65;
+    types_hash_max_size 2048;
+    include             /etc/nginx/mime.types;
+    default_type        application/octet-stream;
+    include /etc/nginx/conf.d/*.conf;
+    server {
+        listen       80;
+        server_name  ~^.*$;
+        location / {
+              include uwsgi_params;
+              uwsgi_pass drf:8888;
+              uwsgi_ignore_client_abort on;
+        }
+    }
+}
 ```

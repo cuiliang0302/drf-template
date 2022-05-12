@@ -122,19 +122,16 @@ USE_TZ = True
 
 # 静态文件存放位置
 STATIC_URL = '/static/'
-# 指定样式收集目录
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+# # 设置文件上传路径，图片上传、文件上传都会存放在此目录里
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# 设置文件上传路径，图片上传、文件上传都会存放在此目录里
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-# 上传图片的类型
-ALLOWED_IMG_TYPE = ['jpg', 'png', 'PNG']
-
-# 上传图片的地址
-UPLOAD_ADDRESS = 'static/upload/'
+# # 上传图片的类型
+# ALLOWED_IMG_TYPE = ['jpg', 'png', 'PNG']
+#
+# # 上传图片的地址
+# UPLOAD_ADDRESS = 'static/upload/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

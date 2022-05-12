@@ -14,18 +14,20 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
+from django.views.static import serve
 from public import views
 from django.conf import settings
-from django.conf.urls.static import static
 
 urlpatterns = [
-                  path('admin/', admin.site.urls),
-                  # admin管理页
-                  path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-                  # API接口调试认证
-                  path('', views.apiDoc, name='apiDoc'),
-                  # API文档
-                  path('v1/public/', include('public.urls', namespace='public')),
-                  # 公共API
-              ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    path('admin/', admin.site.urls),
+    # admin管理页
+    re_path('static/(?P<path>.*)', serve, {'document_root': settings.STATIC_ROOT}, name='static_url'),
+    # 静态资源文件
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    # API接口调试认证
+    path('', views.apiDoc, name='apiDoc'),
+    # API文档
+    path('v1/public/', include('public.urls', namespace='public')),
+    # 公共API
+]
