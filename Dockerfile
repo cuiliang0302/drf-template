@@ -7,14 +7,15 @@ RUN pip3.8 install -r /opt/DRF/requirements.txt -i https://pypi.tuna.tsinghua.ed
 WORKDIR /opt/DRF/
 # 开发环境
 #EXPOSE 8000
-#CMD ["python3.8","manage.py","runserver","--settings=DRF.settings.develop","0.0.0.0:8000"]
+#CMD ["python3.8","manage.py","runserver","0.0.0.0:8000"]
 # 测试环境
 #EXPOSE 8000
-# ENV DJANGO_SETTINGS_MODULE DRF.settings.develop
-#CMD ["python3.8","manage.py","runserver","--settings=DRF.settings.product","0.0.0.0:8000"]
+# ENV PROJECT_ENV prod
+#CMD ["PROJECT_ENV=prod","python3.8","manage.py","runserver","0.0.0.0:8000"]
 # 生产环境
 EXPOSE 8888
-ENV DJANGO_SETTINGS_MODULE DRF.settings.product
+ENV PROJECT_ENV prod
+ENV DJANGO_SETTINGS_MODULE DRF.settings
 ENV LANG zh_CN.UTF-8
 RUN pip3.8 install uwsgi -i https://pypi.tuna.tsinghua.edu.cn/simple
 CMD ["uwsgi","--ini","/opt/DRF/uwsgi.ini"]

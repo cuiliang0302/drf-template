@@ -9,24 +9,30 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-from DRF.settings.log import *
+from DRF.log import *
 import datetime
 import os
 from pathlib import Path
+import environ
 
+env = environ.Env()
+# 如果PROJECT_ENV=prod,读取.env.prod文件，否则读取.env.dev文件。
+env_name = env.str('PROJECT_ENV', 'dev')
+env.read_env('envs/.env.%s' % env_name)
+# env.read_env('envs/.env.dev')
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 # BASE_DIR = Path(__file__).resolve().parent.parent
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-ody#=i9ljnn2g+p!#gg7lrck^t3mm87f+hv7-q+9!oc6$f8tpc'
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
 # Application definition
-ALLOWED_HOSTS = ['*']
+
 
 INSTALLED_APPS = [
     'simpleui',  # admin UI
@@ -177,3 +183,33 @@ SIMPLEUI_ANALYSIS = False
 AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.AllowAllUsersModelBackend',  # 创建用户不自动关联数据库的is_active
                            'django.contrib.auth.backends.ModelBackend',  # 指定Django的modelbackend类
                            )
+# 开发与生产环境变量
+DEBUG = env.bool('DEBUG', False)
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
+SECRET_KEY = env.str('SECRET_KEY')
+
+DATABASES = {
+    'default': env.db_url('DATABASE_URL')
+}
+if env_name == 'dev':  # [开发环境]
+    # 静态资源目录
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, "static")
+    ]
+else:  # [生产环境]
+    # 指定样式收集目录
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+    # 设置redis作为django的缓存设置
+    CACHES = {
+        'default': env.cache(),
+    }
+    # 设置redis存储django的session信息
+    SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+    SESSION_CACHE_ALIAS = "default"
+    # DRF缓存扩展配置
+    REST_FRAMEWORK_EXTENSIONS = {
+        # 默认缓存时间
+        'DEFAULT_CACHE_RESPONSE_TIMEOUT': 3600,
+        # 缓存存储
+        'DEFAULT_USE_CACHE': 'default'
+    }
