@@ -10,7 +10,6 @@ pip install -r requirements.txt
 python manage.py runserver
 ```
 
-
 ## 生产模式运行项目
 
 ### MySQL部署
@@ -42,6 +41,7 @@ OK
 docker build -t drf:v1 . 
 docker run --name drf -d -p 8888:8888 --restart always --link mysql --link redis drf:v1
 ```
+
 ### nginx配置
 ```bash
 user root;
@@ -84,8 +84,16 @@ docker run --name nginx -d -p 80:80 -v $PWD/nginx.conf:/etc/nginx/nginx.conf --r
 ```
 ## 注意事项
 
+### 执行数据库迁移
+```bash
+docker exec -it drf bash
+python manage.py makemigrations
+python manage.py migrate
+```
+
 ### 更新admin静态资源文件
 ```bash
+docker exec -it drf bash
 python manage.py collectstatic
 ```
 

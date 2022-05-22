@@ -1,6 +1,5 @@
 asgiref==3.5.0
 async-timeout==4.0.2
-backports.zoneinfo==0.2.1
 cffi==1.15.0
 cryptography==36.0.1
 Deprecated==1.2.13
