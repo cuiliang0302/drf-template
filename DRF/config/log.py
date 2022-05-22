@@ -2,7 +2,7 @@ import os.path
 from pathlib import Path
 from loguru import logger
 
-LOG_DIR = os.path.join(Path(__file__).resolve().parent.parent, 'logs')
+LOG_DIR = os.path.join(Path(__file__).resolve().parent.parent.parent, 'logs')
 info_log = os.path.join(LOG_DIR, "info.log")
 error_log = os.path.join(LOG_DIR, "error.log")
 # logger配置

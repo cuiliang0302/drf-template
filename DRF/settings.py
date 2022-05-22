@@ -9,7 +9,8 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-from DRF.log import *
+from DRF.config.log import *
+from DRF.config.simpleui import *
 import datetime
 import os
 from pathlib import Path
@@ -129,16 +130,6 @@ USE_TZ = True
 # 静态文件存放位置
 STATIC_URL = '/static/'
 
-# # 设置文件上传路径，图片上传、文件上传都会存放在此目录里
-# MEDIA_URL = '/media/'
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-# # 上传图片的类型
-# ALLOWED_IMG_TYPE = ['jpg', 'png', 'PNG']
-#
-# # 上传图片的地址
-# UPLOAD_ADDRESS = 'static/upload/'
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
@@ -175,9 +166,7 @@ CORS_ALLOW_CREDENTIALS = True
 # 允许所有
 CORS_ORIGIN_ALLOW_ALL = True
 
-# Django Simple UI 隐藏右侧版本信息和使用分析
-SIMPLEUI_HOME_INFO = False
-SIMPLEUI_ANALYSIS = False
+
 
 # 登录认证后端
 AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.AllowAllUsersModelBackend',  # 创建用户不自动关联数据库的is_active
