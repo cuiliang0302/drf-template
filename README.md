@@ -1,10 +1,13 @@
 ## 项目概述
+
 本项目为DRF初始化模板，具体实现了以下功能
+
 * 实现开发生产环境区分，密钥与代码拆分。
 * 开发模式使用sqlite。生产模式使用mysql+redis。
 * 使用docker实现自动打包与发布。
 
 ## 开发模式运行项目
+
 ```bash
 pip install -r requirements.txt
 python manage.py runserver
@@ -26,7 +29,10 @@ Query OK, 1 row affected, 2 warnings (0.01 sec)
 mysql> show databases;
 ```
 
-### redis部署
+### redis部署(可选)
+
+如果使用redis缓存，envs/.env.prod配置如下
+`#CACHE_URL=rediscache://redis:6379/0?client_class=django_redis.client.DefaultClient&password=123.com`
 
 ```bash
 [root@aliyun docker]# docker run --name redis -p 6379:6379 -d --restart=always redis --requirepass 123.com
@@ -37,12 +43,14 @@ OK
 ```
 
 ### 后端API部署
+
 ```bash
 docker build -t drf:v1 . 
 docker run --name drf -d -p 8888:8888 --restart always --link mysql --link redis drf:v1
 ```
 
 ### nginx配置
+
 ```bash
 user root;
 worker_processes auto;
@@ -79,21 +87,29 @@ http {
 ```
 
 ### nginx部署
+
 ```bash
 docker run --name nginx -d -p 80:80 -v $PWD/nginx.conf:/etc/nginx/nginx.conf --restart always --link drf nginx
 ```
+
 ## 注意事项
 
 ### 执行数据库迁移
+
 ```bash
 docker exec -it drf bash
 python manage.py makemigrations
 python manage.py migrate
 ```
 
-### 更新admin静态资源文件
+### 收集admin静态资源文件
+
 ```bash
 docker exec -it drf bash
 python manage.py collectstatic
 ```
 
+### 默认用户名/密码
+
+用户名`admin`
+密码`123.com`
