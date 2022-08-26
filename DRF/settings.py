@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-from DRF.config.log import *
+from DRF.config.log import logger
 from DRF.config.simpleui import *
 import datetime
 import os
@@ -178,25 +178,6 @@ DATABASES = {
     'default': env.db_url('DATABASE_URL')
 }
 if env_name == 'dev':  # [开发环境]
-    # 静态资源目录
-    STATICFILES_DIRS = [
-        os.path.join(BASE_DIR, "static")
-    ]
+    from DRF.config.develop import *
 else:  # [生产环境]
-    if env.cache(default=False):
-        # 设置redis作为django的缓存设置
-        CACHES = {
-            'default': env.cache(),
-        }
-        # 设置redis存储django的session信息
-        SESSION_ENGINE = "django.contrib.sessions.backends.cache"
-        SESSION_CACHE_ALIAS = "default"
-        # DRF缓存扩展配置
-        REST_FRAMEWORK_EXTENSIONS = {
-            # 默认缓存时间
-            'DEFAULT_CACHE_RESPONSE_TIMEOUT': 3600,
-            # 缓存存储
-            'DEFAULT_USE_CACHE': 'default'
-        }
-    # 指定样式收集目录
-    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+    from DRF.config.product import *
