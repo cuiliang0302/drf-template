@@ -15,4 +15,4 @@ WORKDIR /opt/DRF/
 EXPOSE 8888
 ENV PROJECT_ENV prod
 ENV DJANGO_SETTINGS_MODULE DRF.settings
-CMD ["uwsgi","--ini","/opt/DRF/uwsgi.ini"]
+CMD ["sh","start.sh"]

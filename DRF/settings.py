@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'django_filters',
+    "django_apscheduler",  # 定时任务
     'public',
 ]
 
@@ -169,6 +170,9 @@ CORS_ORIGIN_ALLOW_ALL = True
 AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.AllowAllUsersModelBackend',  # 创建用户不自动关联数据库的is_active
                            'django.contrib.auth.backends.ModelBackend',  # 指定Django的modelbackend类
                            )
+# apscheduler全局配置
+APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"  # Django admin中显示带秒的时间
+APSCHEDULER_RUN_NOW_TIMEOUT = 25  # admin手动触发的作业最大运行时间
 # 开发与生产环境变量
 DEBUG = env.bool('DEBUG', False)
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')

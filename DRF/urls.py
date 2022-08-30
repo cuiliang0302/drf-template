@@ -25,7 +25,7 @@ urlpatterns = [
     # 静态资源文件
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     # API接口调试认证
-    path('', views.apiDoc, name='apiDoc'),
+    path('', views.api_doc, name='api_doc'),
     # API文档
     path('v1/public/', include('public.urls', namespace='public')),
     # 公共API
