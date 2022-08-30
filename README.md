@@ -18,6 +18,10 @@
 
     [接口文档](./templates/doc.html)
 
+* 在线查看
+
+    链接: https://www.apifox.cn/apidoc/shared-34bb4a27-bf7b-432d-9d51-0a767a259e6e  访问密码 : 4UoQc75S 
+
 ## 开发模式运行项目
 
 ```bash
