@@ -1,7 +1,3 @@
-import time
-from datetime import datetime
-
-from django_apscheduler.models import DjangoJobExecution, DjangoJob
 from rest_framework import serializers
 from public.models import UserDemo
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -33,23 +29,3 @@ class UserDemoSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserDemo
         fields = "__all__"
-
-
-class DjangoJobExecutionSerializer(serializers.ModelSerializer):
-    """
-    定时作业执行历史列化器
-    """
-
-    class Meta:
-        model = DjangoJobExecution
-        fields = "__all__"
-
-
-class DjangoJobSerializer(serializers.ModelSerializer):
-    """
-    定时作业列表列化器
-    """
-
-    class Meta:
-        model = DjangoJob
-        exclude = ['job_state']
