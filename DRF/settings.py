@@ -15,14 +15,15 @@ import datetime
 import os
 from pathlib import Path
 import environ
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env()
 # 如果PROJECT_ENV=prod,读取.env.prod文件，否则读取.env.dev文件。
 env_name = env.str('PROJECT_ENV', 'dev')
-env.read_env('envs/.env.%s' % env_name)
+env.read_env(str(BASE_DIR) + '/envs/.env.%s' % env_name)
 # env.read_env('envs/.env.dev')
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
