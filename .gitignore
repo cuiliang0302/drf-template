@@ -1,4 +1,4 @@
 venv
 .idea
 logs
-public/migrations/0*.py
+api/migrations/0*.py

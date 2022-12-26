@@ -1,9 +1,9 @@
 from rest_framework import routers
-from public import views
+from api import views
 from django.urls import path
-from public.views import MyTokenObtainPairView, async_view, sync_view
+from api.views import MyTokenObtainPairView, async_view, sync_view
 
-app_name = "public"
+app_name = "api"
 urlpatterns = [
     # 用户登录
     path('login/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),

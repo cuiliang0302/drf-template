@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from public.models import UserDemo
+from api.models import UserDemo
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 

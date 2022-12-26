@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include, re_path
 from django.views.static import serve
-from public import views
+from api import views
 from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,6 +27,6 @@ urlpatterns = [
     # API接口调试认证
     path('', views.api_doc, name='api_doc'),
     # API文档
-    path('v1/public/', include('public.urls', namespace='public')),
+    path('v1/api/', include('api.urls', namespace='api')),
     # 公共API
 ]

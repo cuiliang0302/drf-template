@@ -8,9 +8,9 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView
-from public.models import UserDemo
-from public.serializers import UserDemoSerializer, MyTokenObtainPairSerializer
-from public.utils import MyPageNumber
+from api.models import UserDemo
+from api.serializers import UserDemoSerializer, MyTokenObtainPairSerializer
+from api.utils import MyPageNumber
 
 
 def api_doc(request):
