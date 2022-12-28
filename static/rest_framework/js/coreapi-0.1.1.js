@@ -880,7 +880,7 @@ var has = Object.prototype.hasOwnProperty;
  *
  * @param {String} query The query string that needs to be parsed.
  * @returns {Object}
- * @api api
+ * @api public
  */
 function querystring(query) {
   var parser = /([^=?&]+)=?([^&]*)/g
@@ -906,7 +906,7 @@ function querystring(query) {
  * @param {Object} obj Object that should be transformed.
  * @param {String} prefix Optional prefix.
  * @returns {String}
- * @api api
+ * @api public
  */
 function querystringify(obj, prefix) {
   prefix = prefix || '';
@@ -1071,7 +1071,7 @@ function resolve(relative, base) {
  * @param {String} address URL we want to parse.
  * @param {Object|String} location Location defaults for relative paths.
  * @param {Boolean|Function} parser Parser for the query string.
- * @api api
+ * @api public
  */
 function URL(address, location, parser) {
   if (!(this instanceof URL)) {
@@ -1212,7 +1212,7 @@ function URL(address, location, parser) {
  *                               When setting the protocol, double slash will be
  *                               removed from the final url if it is true.
  * @returns {URL}
- * @api api
+ * @api public
  */
 URL.prototype.set = function set(part, value, fn) {
   var url = this;
@@ -1293,7 +1293,7 @@ URL.prototype.set = function set(part, value, fn) {
  *
  * @param {Function} stringify Optional query stringify function.
  * @returns {String}
- * @api api
+ * @api public
  */
 URL.prototype.toString = function toString(stringify) {
   if (!stringify || 'function' !== typeof stringify) stringify = qs.stringify;
@@ -1359,7 +1359,7 @@ var ignore = { hash: 1, query: 1 }
  *
  * @param {Object|String} loc Optional default location object.
  * @returns {Object} lolcation object.
- * @api api
+ * @api public
  */
 module.exports = function lolcation(loc) {
   loc = loc || global.location || {};

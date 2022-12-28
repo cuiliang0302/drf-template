@@ -15,6 +15,7 @@ import datetime
 import os
 from pathlib import Path
 import environ
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env()
@@ -47,6 +48,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'django_filters',
+    'django_apscheduler',  # 定时任务
     'api',
 ]
 
@@ -83,18 +85,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'DRF.wsgi.application'
 
-# Database
-# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
-# Password validation
-# https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 # 登录认证后端配置
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -111,9 +101,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Internationalization
-# https://docs.djangoproject.com/en/3.2/topics/i18n/
-
 LANGUAGE_CODE = 'zh-Hans'
 
 TIME_ZONE = 'Asia/Shanghai'
@@ -124,14 +111,8 @@ USE_L10N = True
 
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.2/howto/static-files/
-
 # 静态文件存放位置
 STATIC_URL = '/static/'
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -173,15 +154,34 @@ AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.AllowAllUsersModelBacke
 # apscheduler全局配置
 APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"  # Django admin中显示带秒的时间
 APSCHEDULER_RUN_NOW_TIMEOUT = 25  # admin手动触发的作业最大运行时间
+# DRF缓存扩展配置
+REST_FRAMEWORK_EXTENSIONS = {
+    # 默认缓存时间
+    'DEFAULT_CACHE_RESPONSE_TIMEOUT': env.int('DEFAULT_CACHE_RESPONSE_TIMEOUT'),
+    # 缓存存储
+    'DEFAULT_USE_CACHE': 'default'
+}
 # 开发与生产环境变量
 DEBUG = env.bool('DEBUG', False)
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
 SECRET_KEY = env.str('SECRET_KEY')
-
+CACHE_URL = env.str('CACHE_URL', '')
 DATABASES = {
     'default': env.db_url('DATABASE_URL')
 }
 if env_name == 'dev':  # [开发环境]
-    from DRF.config.develop import *
+    # 静态资源目录
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, "static")
+    ]
 else:  # [生产环境]
-    from DRF.config.product import *
+    # 指定样式收集目录
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+    if CACHE_URL:
+        # 设置redis作为django的缓存设置
+        CACHES = {
+            'default': env.cache(),
+        }
+        # 设置redis存储django的session信息
+        SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+        SESSION_CACHE_ALIAS = "default"

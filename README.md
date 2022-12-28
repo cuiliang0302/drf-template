@@ -12,15 +12,15 @@
 
 * 部署后查看：
 
-    [接口文档](http://127.0.0.1:8000)
+  [接口文档](http://127.0.0.1:8000)
 
 * 文件查看：
 
-    [接口文档](./templates/doc.html)
+  [接口文档](./templates/doc.html)
 
 * 在线查看
 
-    链接: https://www.apifox.cn/apidoc/shared-34bb4a27-bf7b-432d-9d51-0a767a259e6e  访问密码 : 4UoQc75S 
+  链接: https://www.apifox.cn/apidoc/shared-34bb4a27-bf7b-432d-9d51-0a767a259e6e  访问密码 : 4UoQc75S
 
 ## 开发模式运行项目
 
@@ -68,36 +68,14 @@ docker run --name drf -d -p 8888:8888 --restart always --link mysql --link redis
 ### nginx配置
 
 ```bash
-user root;
-worker_processes auto;
-error_log /var/log/nginx/error.log;
-pid /run/nginx.pid;
-# Load dynamic modules. See /usr/share/doc/nginx/README.dynamic.
-include /usr/share/nginx/modules/*.conf;
-events {
-    worker_connections 1024;
-}
-http {
-    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
-                      '$status $body_bytes_sent "$http_referer" '
-                      '"$http_user_agent" "$http_x_forwarded_for"';
-    access_log  /var/log/nginx/access.log  main;
-    sendfile            on;
-    tcp_nopush          on;
-    tcp_nodelay         on;
-    keepalive_timeout   65;
-    types_hash_max_size 2048;
-    include             /etc/nginx/mime.types;
-    default_type        application/octet-stream;
-    include /etc/nginx/conf.d/*.conf;
-    server {
-        listen       80;
-        server_name  ~^.*$;
-        location / {
-              include uwsgi_params;
-              uwsgi_pass drf:8888;
-              uwsgi_ignore_client_abort on;
-        }
+server {
+    server_name  ~^.*$;
+    location / {
+        proxy_pass http://drf:8000;
+        proxy_set_header Host $host;
+	    proxy_set_header X-Real-IP $remote_addr;
+	    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
     }
 }
 ```
@@ -105,7 +83,7 @@ http {
 ### nginx部署
 
 ```bash
-docker run --name nginx -d -p 80:80 -v $PWD/nginx.conf:/etc/nginx/nginx.conf --restart always --link drf nginx
+docker run --name nginx -d -p 80:80 -v $PWD/nginx.conf:/etc/nginx/conf.d/drf.conf --restart always --link drf nginx
 ```
 
 ## 注意事项
