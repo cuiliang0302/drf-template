@@ -26,7 +26,10 @@
 
 ```bash
 pip install -r requirements.txt
-python manage.py runserver
+# 运行Django项目
+uvicorn DRF.asgi:application --reload
+# 运行定时任务
+python manage.py crontab
 ```
 
 ## 生产模式运行项目
