@@ -31,6 +31,9 @@ uvicorn DRF.asgi:application --reload
 # 运行定时任务
 python manage.py crontab
 ```
+## pycharm开发模式
+
+![](https://oss.cuiliangblog.cn/markdown/Django-dev.png)
 
 ## 生产模式运行项目
 
