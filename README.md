@@ -5,7 +5,7 @@
 * 完整的序列化器、视图、路由示例。
 * 集成Apscheduler定时任务模块与接口
 * 实现开发生产环境区分，密钥与代码拆分。
-* 开发模式使用sqlite。生产模式使用mysql+redis。
+* 开发模式使用sqlite(或MySQL，按需修改envs目录对应文件配置)。生产模式使用mysql+redis。
 * 使用docker实现自动打包与发布。
 
 ## 接口文档
