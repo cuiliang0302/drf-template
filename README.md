@@ -20,20 +20,41 @@
 
 * 在线查看
 
-  链接: https://www.apifox.cn/apidoc/shared-34bb4a27-bf7b-432d-9d51-0a767a259e6e  访问密码 : 4UoQc75S
+  链接: https://www.apifox.cn/apidoc/shared-34bb4a27-bf7b-432d-9d51-0a767a259e6e  
+
+  访问密码 : 4UoQc75S
 
 ## 开发模式运行项目
 
+### uvicorn方式
+
+* 命令行启动
+
 ```bash
+# 安装pip库依赖
 pip install -r requirements.txt
 # 运行Django项目
 uvicorn DRF.asgi:application --reload
 # 运行定时任务
 python manage.py crontab
 ```
-## pycharm开发模式
+
+* pycharm开发模式
 
 ![](https://oss.cuiliangblog.cn/markdown/Django-dev.png)
+
+### manager.py方式
+
+* 命令行启动
+
+```bash
+# 安装pip库依赖
+pip install -r requirements.txt
+# 运行Django项目
+uvicorn python manage.py runserver 0.0.0.0:8000
+# 运行定时任务
+python manage.py crontab
+```
 
 ## 生产模式运行项目
 
@@ -102,7 +123,7 @@ python manage.py makemigrations
 python manage.py migrate
 ```
 
-### 收集admin静态资源文件
+### 收集admin静态资源文件（生产模式执行）
 
 ```bash
 docker exec -it drf bash
