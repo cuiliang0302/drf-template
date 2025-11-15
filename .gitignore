@@ -1,0 +1,6 @@
+.venv
+.idea
+api/migrations
+api/__pycache__
+DRF/__pycache__
+logs
