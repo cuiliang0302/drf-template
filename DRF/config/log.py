@@ -6,12 +6,14 @@ from loguru import logger
 LOG_DIR = os.path.join(Path(__file__).resolve().parent.parent.parent, 'logs')
 debug_log = os.path.join(LOG_DIR, "debug.log")
 info_log = os.path.join(LOG_DIR, "info.log")
+warning_log = os.path.join(LOG_DIR, "warning.log")
 error_log = os.path.join(LOG_DIR, "error.log")
 # logger配置
 config = {
     "rotation": "00:00",  # 每天00点生成新文件
     "encoding": "utf-8",
     "retention": "7 days",  # 日志保留天数
+    "enqueue": True,  # 避免 Windows 文件锁问题
     "backtrace": True,  # 错误堆栈日志
     "diagnose": True
 }
@@ -43,6 +45,8 @@ config = {
 #         },
 #     }
 # }
-logger.add(debug_log, level='DEBUG', **config)
-logger.add(info_log, level='INFO', **config)
-logger.add(error_log, level='ERROR', **config)
+logger.add(debug_log, level='DEBUG', filter=lambda record: record["level"].name == "DEBUG", **config)
+logger.add(info_log, level='INFO', filter=lambda record: record["level"].name == "INFO", **config)
+logger.add(warning_log, level='WARNING', filter=lambda record: record["level"].name == "WARNING", **config)
+logger.add(error_log, level='ERROR', filter=lambda record: record["level"].name == "ERROR", **config)
+

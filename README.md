@@ -1,9 +1,11 @@
 ## 项目概述
 
-本项目为DRF初始化模板，具体实现了以下功能
+本项目为DRF初始化模板，具体实现了以下功能：
 
-* 完整的序列化器、视图、路由示例。
-* 集成Apscheduler定时任务模块与接口
+* 完整的序列化器、视图、路由、同步异步视图示例。
+* 使用UV对pip包进行管理。参考链接：https://www.cuiliangblog.cn/detail/section/228701279
+* 封装日志轮转、日志按等级切分。
+* 集成Apscheduler定时任务模块与接口。参考链接：https://www.cuiliangblog.cn/detail/article/47
 * 实现开发生产环境区分，密钥与代码拆分。
 * 开发模式使用sqlite(或MySQL，按需修改envs目录对应文件配置)。生产模式使用mysql+redis。
 * 使用docker实现自动打包与发布。
